@@ -8926,14 +8926,18 @@ end
 Redis:del(Revor..'Revor:Texting:DevRevor')
 return LuaTele.sendText(msg_chat_id,msg_id,'᥀︙ تم حذف كليشه المطور')
 end
-if text and (text == 'المطور' or text == 'مطور' or text == '↫  المطور ᥀') then
-tdcli_function({ID="GetUser",user_id_=SUDO},function(arg,result)
-local msg_id = msg.id_/2097152/0.5
-Text = "*᥀︙Dev Name ↬ * ["..result.first_name_.."](T.me/"..result.username_..")\n*᥀︙Dev User ↬* [@"..result.username_.."]"
-keyboard = {} 
-keyboard.inline_keyboard = {{{text = ''..result.first_name_..' ',url="t.me/"..result.username_}}}
-https.request("https://api.telegram.org/bot"..token..'/sendPhoto?chat_id=' .. msg.chat_id_ .. '&photo=https://t.me/'..result.username_..'&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
-end,nil)
+if text == 'المطور' or text == 'مطور' then
+local TextingDevRevor = Redis:get(Revor..'Revor:Texting:DevRevor')
+if TextingDevRevor then 
+return LuaTele.sendText(msg_chat_id,msg_id,TextingDevRevor,"md",true)  
+else
+local UserInfo = LuaTele.getUser(Sudo_Id)
+for Name_User in string.gmatch(UserInfo.first_name, "[^%s]+" ) do
+UserInfo.first_name = Name_User
+break
+end 
+return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙مطور البوت : {*['..UserInfo.first_name..'](tg://user?id='..UserInfo.id..')*}*',"md",true)  
+end
 end
 
 if text == 'السورس' or text == 'سورس' or text == 'ياسورس'  then
