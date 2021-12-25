@@ -8547,6 +8547,21 @@ Redis:del(Revor.."Revor:List:Rd:Sudo")
 end
 return LuaTele.sendText(msg_chat_id,msg_id,"᥀︙تم حذف ردود المطور","md",true)  
 end
+if text == 'السيرفر' and SudoBot(msg) then 
+send(msg.chat_id_, msg.id_, io.popen([[
+linux_version=`lsb_release -ds`
+memUsedPrc=`free -m | awk 'NR==2{printf "%sMB/%sMB {%.2f%}\n", $3,$2,$3*100/$2 }'`
+HardDisk=`df -lh | awk '{if ($6 == "/") { print $3"/"$2" ~ {"$5"}" }}'`
+CPUPer=`top -b -n1 | grep "Cpu(s)" | awk '{print $2 + $4}'`
+uptime=`uptime | awk -F'( |,|:)+' '{if ($7=="min") m=$6; else {if ($7~/^day/) {d=$6;h=$8;m=$9} else {h=$6;m=$7}}} {print d+0,"days,",h+0,"hours,",m+0,"minutes."}'`
+echo '⇗ نظام التشغيل ⇖•\n*»» '"$linux_version"'*' 
+echo '*———————————~*\n✯✔{ الذاكره العشوائيه } ⇎\n*»» '"$memUsedPrc"'*'
+echo '*———————————~*\n✯✔{ وحـده الـتـخـزيـن } ⇎\n*»» '"$HardDisk"'*'
+echo '*———————————~*\n✯✔{ الـمــعــالــج } ⇎\n*»» '"`grep -c processor /proc/cpuinfo`""Core ~ {$CPUPer%} "'*'
+echo '*———————————~*\n✯✔{ الــدخــول } ⇎\n*»» '`whoami`'*'
+echo '*———————————~*\n✯✔{ مـده تـشغيـل الـسـيـرفـر }⇎\n*»» '"$uptime"'*'
+]]):read('*all'))  
+end
 if text == ("ردود المطور") then 
 if not msg.ControllerBot then 
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*᥀︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
@@ -8911,18 +8926,14 @@ end
 Redis:del(Revor..'Revor:Texting:DevRevor')
 return LuaTele.sendText(msg_chat_id,msg_id,'᥀︙ تم حذف كليشه المطور')
 end
-if text == 'المطور' or text == 'مطور' then
-local TextingDevRevor = Redis:get(Revor..'Revor:Texting:DevRevor')
-if TextingDevRevor then 
-return LuaTele.sendText(msg_chat_id,msg_id,TextingDevRevor,"md",true)  
-else
-local UserInfo = LuaTele.getUser(Sudo_Id)
-for Name_User in string.gmatch(UserInfo.first_name, "[^%s]+" ) do
-UserInfo.first_name = Name_User
-break
-end 
-return LuaTele.sendText(msg_chat_id,msg_id,'\n*᥀︙مطور البوت : {*['..UserInfo.first_name..'](tg://user?id='..UserInfo.id..')*}*',"md",true)  
-end
+if text and (text == 'المطور' or text == 'مطور' or text == '↫  المطور ᥀') then
+tdcli_function({ID="GetUser",user_id_=SUDO},function(arg,result)
+local msg_id = msg.id_/2097152/0.5
+Text = "*᥀︙Dev Name ↬ * ["..result.first_name_.."](T.me/"..result.username_..")\n*᥀︙Dev User ↬* [@"..result.username_.."]"
+keyboard = {} 
+keyboard.inline_keyboard = {{{text = ''..result.first_name_..' ',url="t.me/"..result.username_}}}
+https.request("https://api.telegram.org/bot"..token..'/sendPhoto?chat_id=' .. msg.chat_id_ .. '&photo=https://t.me/'..result.username_..'&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
+end,nil)
 end
 
 if text == 'السورس' or text == 'سورس' or text == 'ياسورس'  then
@@ -9894,6 +9905,8 @@ Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'ثانو�
 Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'ر', 'الرابط')
 Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'رس', 'مسح رسائلي')
 Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'غ', 'غنيلي')
+Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'رد', 'اضف رد')
+Redis:set(Revor.."Revor:Get:Reides:Commands:Group"..msg_chat_id..":"..'تك', 'تنزيل الكل')
 return LuaTele.sendText(msg_chat_id,msg_id,[[*
 ᥀︙تم ترتيب الاوامر بالشكل التالي ~
 ᥀︙ ايدي - ا .
