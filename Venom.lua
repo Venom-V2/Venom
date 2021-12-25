@@ -34,7 +34,7 @@ end
 else
 print('\27[1;34mلم يتم حفظ التوكن جرب مره اخره \nToken not saved, try again')
 end 
-os.execute('lua Revor.lua')
+os.execute('lua Venom.lua')
 end
 if not Redis:get(SshId.."Info:Redis:User") then
 io.write('\27[1;31mارسل معرف المطور الاساسي الان \nDeveloper UserName saved ↡\n\27[0;39;49m')
@@ -45,7 +45,7 @@ Redis:set(SshId.."Info:Redis:User",UserSudo)
 else
 print('\n\27[1;34mلم يتم حفظ معرف المطور الاساسي \nDeveloper UserName not saved\n')
 end 
-os.execute('lua Revor.lua')
+os.execute('lua Venom.lua')
 end
 if not Redis:get(SshId.."Info:Redis:User:ID") then
 io.write('\27[1;31mارسل ايدي المطور الاساسي الان \nDeveloper ID saved ↡\n\27[0;39;49m')
@@ -56,7 +56,7 @@ Redis:set(SshId.."Info:Redis:User:ID",UserId)
 else
 print('\n\27[1;34mلم يتم حفظ ايدي المطور الاساسي \nDeveloper ID not saved\n')
 end 
-os.execute('lua Revor.lua')
+os.execute('lua Venom.lua')
 end
 local Informationlua = io.open("Information.lua", 'w')
 Informationlua:write([[
@@ -72,7 +72,7 @@ local Revor = io.open("Revor", 'w')
 Revor:write([[
 cd $(cd $(dirname $0); pwd)
 while(true) do
-sudo lua5.3 Revor.lua
+sudo lua5.3 Venom.lua
 done
 ]])
 Revor:close()
@@ -2077,8 +2077,8 @@ if text == 'تحديث السورس' or text == 'تحديث السورس ⌔' th
 if not msg.ControllerBot then 
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙هاذا الامر يخص { '..Controller_Num(1)..' }* ',"md",true)  
 end
---os.execute('rm -rf Revor.lua')
---download('https://raw.githubusercontent.com/Revor2/Revor/master/Revor.lua','Revor.lua')
+--os.execute('rm -rf Venom.lua')
+--download('https://raw.githubusercontent.com/Revor2/Revor/master/Venom.lua','Venom.lua')
 return LuaTele.sendText(msg_chat_id,msg_id,'\n*⌔︙تم تحديث السورس * ',"md",true)  
 end
 if text == 'تعطيل الاذاعه ⌔' or text == 'تعطيل الاذاعه' then
@@ -9116,7 +9116,7 @@ end
 print('Chat Id : '..msg_chat_id)
 print('User Id : '..msg_user_send_id)
 LuaTele.sendText(msg_chat_id,msg_id, "⌔︙ تم تحديث الملفات ♻","md",true)
-dofile('Revor.lua')  
+dofile('Venom.lua')  
 end
 if text == "تغير اسم البوت" then 
 if not msg.ControllerBot then 
@@ -9913,7 +9913,7 @@ end
 print('Chat Id : '..msg_chat_id)
 print('User Id : '..msg_user_send_id)
 LuaTele.sendText(msg_chat_id,msg_id, "⌔︙ تم تحديث الملفات ♻","md",true)
-dofile('Revor.lua')  
+dofile('Venom.lua')  
 end
 if text == '/start' then
 Redis:sadd(Revor..'Revor:Num:User:Pv',msg.sender.user_id)  
