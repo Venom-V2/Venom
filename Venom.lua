@@ -9885,6 +9885,39 @@ else
 return LuaTele.sendText(msg_chat_id,msg_id, "᥀︙عدد الجواهر التي ربحتها *← "..Num.." *","md",true)  
 end
 end
+if text == "غنيلي" and not database:get(bot_id.."sing:for:me"..msg.chat_id_) then
+data,res = https.request('https://black-source.tk/BlackTeAM/audios.php')
+if res == 200 then
+audios = json:decode(data)
+if audios.Info == true then
+local Text ='*✯│عمري تم اختيار المقطع الصوتي لك💞🎶*'
+keyboard = {} 
+keyboard.inline_keyboard = {
+{{text = '⍆ ѕᴏụʀᴄᴇ ᴠᴇɴᴏᴍ',url="t.me/venom_source"}},
+}
+local msg_id = msg.id_/2097152/0.5
+https.request("https://api.telegram.org/bot"..token..'/sendVoice?chat_id=' .. msg.chat_id_ .. '&voice='..URL.escape(audios.info)..'&caption=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
+end
+end
+end
+if text == 'تفعيل غنيلي' and SudoBotCoSu(msg) then   
+if database:get(bot_id..'sing:for:me'..msg.chat_id_) then
+Text = ' *✯│تم تفعيل امر غنيلي الان ارسل غنيلي*'
+database:del(bot_id..'sing:for:me'..msg.chat_id_)  
+else
+Text = ' *✯│بالتاكيد تم تفعيل امر غنيلي تستطيع ارسال غنيلي*'
+end
+send(msg.chat_id_, msg.id_,Text) 
+end
+if text == 'تعطيل غنيلي' and SudoBotCoSu(msg) then  
+if not database:get(bot_id..'sing:for:me'..msg.chat_id_) then
+database:set(bot_id..'sing:for:me'..msg.chat_id_,true)  
+Text = '\n *✯│تم تعطيل امر غنيلي*'
+else
+Text = '\n *✯│بالتاكيد تم تعطيل امر غنيلي*'
+end
+send(msg.chat_id_, msg.id_,Text) 
+end
 
 if text == 'ترتيب الاوامر' then
 if not msg.Managers then
@@ -10440,57 +10473,6 @@ return LuaTele.sendText(msg.chat_id,msg.id,'*\n᥀︙عليك الاشتراك �
 end
 Redis:del(Revor.."Revor:TwaslBot") 
 return LuaTele.sendText(msg_chat_id,msg_id,"᥀︙تم تعطيل التواصل داخل البوت ","md",true)
-end
-if text == "- الاشتراك الاجباري ⌔ ."  then  
-if database:get(bot_id..'add:ch:username') then
-local addchusername = database:get(bot_id..'add:ch:username')
-send(msg.chat_id_, msg.id_, "⌔︙تم تفعيل الاشتراك الاجباري \n⌔︙على القناة -› ["..addchusername.."]")
-else
-send(msg.chat_id_, msg.id_, "⌔︙لا يوجد قناة في الاشتراك الاجباري ")
-end
-return false  
-end
-if text == "- تفعيل الاشتراك الاجباري ⌔ ."  then  
-if database:get(bot_id..'add:ch:id') then
-local addchusername = database:get(bot_id..'add:ch:username')
-send(msg.chat_id_, msg.id_,"⌔︙الاشتراك الاجباري مفعل \n⌔︙على القناة -› ["..addchusername.."]")
-else
-database:setex(bot_id.."add:ch:jm" .. msg.chat_id_ .. "" .. msg.sender_user_id_, 360, true)  
-send(msg.chat_id_, msg.id_,"⌔︙اهلا عزيزي المطور \n⌔︙ارسل الان معرف قناتك")
-end
-return false  
-end
-if text == "- تعطيل الاشتراك الاجباري ⌔ ."  then  
-database:del(bot_id..'add:ch:id')
-database:del(bot_id..'add:ch:username')
-send(msg.chat_id_, msg.id_, "⌔︙تم تعطيل الاشتراك الاجباري ")
-return false  
-end
-if text == '- تغير الاشتراك ⌔ .' then
-database:setex(bot_id.."add:ch:jm" .. msg.chat_id_ .. "" .. msg.sender_user_id_, 360, true)  
-send(msg.chat_id_, msg.id_, '⌔︙حسنآ ارسل لي معرف القناة')
-return false  
-end
-if text == '- تغير رساله الاشتراك ⌔ .' then
-database:setex(bot_id.."textch:user" .. msg.chat_id_ .. "" .. msg.sender_user_id_, 360, true)  
-send(msg.chat_id_, msg.id_, '⌔︙حسنآ ارسل لي النص الذي تريده')
-return false  
-end
-if text == "حذف رساله الاشتراك ⌔ ." then
-database:del(bot_id..'text:ch:user')
-send(msg.chat_id_, msg.id_, "⌔︙تم مسح رساله الاشتراك ")
-return false  
-end
-if text == '- تعين قناة الاشتراك ⌔ .' then
-database:setex(bot_id.."add:ch:jm" .. msg.chat_id_ .. "" .. msg.sender_user_id_, 360, true)  
-send(msg.chat_id_, msg.id_, '⌔︙حسنآ ارسل لي معرف القناة')
-return false  
-end
-end
-if not VIP_DeV(msg) then
-if text == "- الاشتراك الاجباري ⌔ ."  or text == "- تفعيل الاشتراك الاجباري ⌔ ."  or text == "- تعطيل الاشتراك الاجباري ⌔ ."  or text == '- تغير رساله الاشتراك ⌔ .' or text == '- تغير الاشتراك ⌔ .' or text == "حذف رساله الاشتراك ⌔ ." or text == '- تعين قناة الاشتراك ⌔ .' then
-send(msg.chat_id_, msg.id_,'⌔︙عذا الامر للمطور الاساسي فقط .')
-end
 end
 if text == 'تفعيل البوت الخدمي ᥀' then
 if not msg.ControllerBot then 
